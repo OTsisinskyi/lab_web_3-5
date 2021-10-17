@@ -14,6 +14,10 @@ import {
   const sortProperty = document.getElementById("property_sorting");
   const DECS_button = document.getElementById("DESC_button");
   const totalValues = document.getElementById("property_total_value");
+
+  const nameInput = document.getElementById("name_input");
+  const lengthInput = document.getElementById("length_input");
+  const ticketInput = document.getElementById("ticket_input");
   
   
   let parks = [];
@@ -33,13 +37,34 @@ import {
   
   submitButton.addEventListener("click", (event) => {
     event.preventDefault();
-    const { name, length, ticket } = getInputValues();
-    clearInputs();
-    addItem({
-      name,
-      length,
-      ticket,
-    });
+    let invalidSymbols = ["`", "?", "!", ";", "#", "@", "%", "~", "&", "$", "№", "<", ">", "/", "\\", "*", "₴"];
+    if (nameInput.value == 0) {
+      alert("Введіть назву парку!")
+    }
+    else if (lengthInput.value == 0) {
+      alert("Введіть довжину доріжок!")
+    }
+    else if (ticketInput.value == 0) {
+      alert("Введіть ціну білету!")
+    }
+    else if (invalidSymbols.some(symbol => nameInput.value.includes(symbol))) {
+      alert("Сторонні символи у назві парку!")
+    }
+    else if (isNaN(lengthInput.value)) {
+      alert("Довжина парку повинна бути числом");
+    }
+    else if (isNaN(ticketInput.value)) {
+      alert("Вартість білету повинна бути числом");
+    }
+    else {
+      const { name, length, ticket } = getInputValues();
+      clearInputs();
+      addItem({
+        name,
+        length,
+        ticket,
+      });
+    }
   });
   
   findButton.addEventListener("click", () => {
